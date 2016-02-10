@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainView.qml</file>
+        <file>MovieDelegate.qml</file>
+        <file>MovieDetails.qml</file>
+        <file>TorrentDelegate.qml</file>
+        <file>MainMenu.qml</file>
+    </qresource>
+    <qresource prefix="/icon">
+        <file>icons/download.png</file>
+    </qresource>
+</RCC>
