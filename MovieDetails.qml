@@ -1,17 +1,17 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 
-Item {
+Rectangle {
     id: main
     anchors.fill: parent
+    color: "white";
     z: 1
+
+    property string provider
 
     signal downloadTorrent(string downloadLink)
 
-    Rectangle {
-        color: "white"; anchors.fill: main
-        MouseArea { anchors.fill: parent }
-    }
+    MouseArea { anchors.fill: parent }
 
     Item {
         id: upperBar; height: 50; anchors { top: main.top; left: main.left; right: main.right; }
@@ -29,7 +29,7 @@ Item {
     Item {
         id: infoBox; height: 200; anchors { top: upperBar.bottom; left: main.left; right: main.right }
 
-        Image { id: poster; source: "image://img/"+model.title; height: 200; width: 140; anchors.left: infoBox.left }
+        Image { id: poster; source: "image://"+main.provider+"/"+model.title; height: 200; width: 140; anchors.left: infoBox.left }
         Column {
             id: infoColumn; anchors { top: infoBox.top; bottom: infoBox.bottom; left: poster.right; right: infoBox.right } spacing: 5;
             Label {
@@ -67,10 +67,17 @@ Item {
 
     Connections {
         target: movies
-        onDetailsDownloaded: {
-            console.log( "refresh()" );
-            premiere.text = "Premiere: "+model.premiere;
-            plot.text = "Plot: "+model.plot;
-        }
+        onDetailsDownloaded: refresh()
+    }
+
+    Connections {
+        target: wishlist
+        onDetailsDownloaded: refresh()
+    }
+
+    function refresh() {
+        console.log( "refresh()" );
+        premiere.text = "Premiere: "+model.premiere;
+        plot.text = "Plot: "+model.plot;
     }
 }

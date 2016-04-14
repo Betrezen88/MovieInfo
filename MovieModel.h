@@ -18,7 +18,7 @@ public:
         PremiereRole,
         YearRole,
         CompleteRole,
-        //TorrentRole
+        TorrentRole
     };
 
     MovieModel(QObject *parent = 0) : QAbstractListModel(parent)
@@ -60,8 +60,8 @@ public:
                 return movie.year();
             else if ( role == CompleteRole )
                 return movie.isComplete();
-            //else if ( role == TorrentRole )
-            //return movie.torrentInfo();
+            else if ( role == TorrentRole )
+                return movie.torrentInfo().isEmpty();
         }
         return QVariant();
     }
@@ -106,7 +106,7 @@ protected:
         roles[PremiereRole] = "premiere";
         roles[YearRole] = "year";
         roles[CompleteRole] = "complete";
-        //roles[TorrentRole] = "torrent";
+        roles[TorrentRole] = "torrentsEmpty";
         return roles;
     }
 

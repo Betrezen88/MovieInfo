@@ -1,19 +1,20 @@
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Controls 1.4
 
-Item {
+Rectangle {
     id: main; visible: false;
+    color: "#000"; opacity: 0.7
 
-    Rectangle {
-        anchors.fill: main; color: "#000"; opacity: 0.7
-        MouseArea { anchors.fill: parent; onClicked: main.visible = false; }
-    }
+    property string viewBtnText
+
+    signal viewBtnClicked()
+
+    MouseArea { anchors.fill: parent; onClicked: main.visible = false; }
 
     Column {
-        id: buttons
         spacing: 5
-        anchors.fill: main
-
-        Button { id: quitBtn; height: 40; width: 90; text: "Quit"; anchors { bottom: buttons.bottom; right: buttons.right }  onClicked: Qt.quit() }
+        width: 120; anchors { right: main.right; bottom: main.bottom; rightMargin: 10; bottomMargin: 10; }
+        Button { id: viewBtn; height: 50; width: 120; text: main.viewBtnText; onClicked: main.viewBtnClicked(); }
+        Button { id: quitBtn; height: 50; width: 120; text: "Quit"; onClicked: Qt.quit() }
     }
 }

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Controls 1.4
 
 Item {
@@ -6,11 +6,13 @@ Item {
     height: 100
     anchors { left: parent.left; right: parent.right; }
 
-    signal details(string movieTitle)
+    property string provider
+
+    signal downloadDetails(string title)
     signal downloadTorrent(string downloadLink)
 
     Image {
-        id: poster; source: "image://img/"+model.title;
+        id: poster; source: "image://"+provider+"/"+model.title;
         width: 80; height: 100; anchors { left: main.left }
     }
 
@@ -37,7 +39,7 @@ Item {
         anchors.fill: main
         onClicked: {
             if ( !model.complete )
-                details(model.title);
+                downloadDetails(model.title);
             createDetailsComponent();
         }
         onPressAndHold: delegateMenu.popup();
@@ -61,7 +63,7 @@ Item {
     function createDetailsComponent() {
         var component = Qt.createComponent("MovieDetails.qml");
         if ( component.status === Component.Ready ) {
-            var object = component.createObject(main.parent.parent.parent);
+            var object = component.createObject(main.parent.parent.parent, { "provider": main.provider });
             object.downloadTorrent.connect(main.downloadTorrent);
         }
         else
